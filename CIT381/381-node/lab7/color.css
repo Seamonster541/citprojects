@@ -1,0 +1,19 @@
+.container { 
+	display: table;
+}
+.row {
+	display: table-row; 
+}
+.col1, .col2, .col3, .col1H, .col2H, .col3H { 
+	display: table-cell;
+	padding-right: 25px;
+}
+.col1H, .col2H, .col3H {
+	border-bottom: 2px solid #000000; 
+}
+.divCol1 {
+	display: inline-block; width: 100px;
+} 
+.divCol2 {
+	display: inline-block; 
+}

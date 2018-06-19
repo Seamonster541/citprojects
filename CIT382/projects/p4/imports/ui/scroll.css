@@ -1,0 +1,13 @@
+#scroll {
+	width: 200px;
+	height: 200px;
+	overflow: scroll;
+}
+
+#divGrp {
+	text-align: center;
+}
+
+#list {
+	padding-top: 5px;
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Project-Skeleton",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "crypto-js": "^3.1.9-1",
+    "crypto.js": "^1.0.1",
+    "meteor-node-stubs": "^0.3.2",
+    "prop": "^0.1.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "types": "^0.1.1"
+  }
+}

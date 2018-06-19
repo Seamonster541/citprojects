@@ -1,0 +1,22 @@
+Relationships
+P(38) 1:M, 1:1, M:M
+
+Data models
+P(43) rational model, relational diagram
+P(46) Entity relationship model, crow's foot ERD
+
+keys
+Primary key P(76)
+Foreign key P(79)
+
+
+--------
+
+
+1. Rational diagram
+Region to store is 1:M, region is location for, store is located in
+Store to Employee is 1:M,  store employs, employee s employed by
+Empoyee to Job 1:M (Job to Employee), job has employee, emloyee is assigned to.
+
+----------
+

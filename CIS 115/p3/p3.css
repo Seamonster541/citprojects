@@ -1,0 +1,9 @@
+body {
+	background:url(images/godzillaVking.jpg);
+}
+
+span, label, h1{
+	font-style: italic;
+	font-size: 30px;
+	color: red;
+}

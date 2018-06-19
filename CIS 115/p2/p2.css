@@ -1,0 +1,85 @@
+/*can link a background with a picture from computer*/
+body {
+	
+	background-image:url('images/clouds2.jpg');
+	text-align: center;
+}
+
+/*margin gives space depending position ie bottom */
+h1 {
+	color: white;
+	font-family: Courier;
+	font-size: 300%;
+	margin-bottom: 10px;
+}
+
+h3 {
+	color: white;
+	font-family: sans-serif;
+	font-size: 125%;
+}
+
+br {
+	padding: 10px;
+}
+
+#location {
+	color: white;
+	padding: 10px;
+}
+
+/*need to auto left and margin to center the map. Border adds a border */
+#map{
+	border: 3px solid black;
+	width: 800px;
+	height: 400px;
+	left: auto;
+	margin: auto;
+	margin-bottom: 15px;
+}
+
+/* create a curve to the border w/ border-radius */
+#currentLocation {
+	background-color: white;
+	border: none;
+	border-radius: 50px;
+	color: black;
+	padding: 15px 30px;
+	font-style: serif;
+	font-size: 120%;
+	margin-bottom: 10px;
+}
+#currentLocation:hover {
+	background-color: skyblue;
+}
+
+#center {
+	background-color: white;
+	border: none;
+	border-radius: 50px;
+	color: black;
+	padding: 20px 20px;
+	font-style: serif;
+	font-size: 120%;
+}
+
+#center:hover {
+	background-color: skyblue;
+}
+
+/* position: relative is an element positioned relative to it's normal*/
+select {
+	position: relative;
+	background-color: white;
+	border: none;
+	border-radius: 50px;
+	color: black;
+	padding: 10px 10px;
+	font-style: serif;
+	font-size: 120%;
+}
+
+/* highlights the element*/
+select:hover{
+	background-color: skyblue;
+}

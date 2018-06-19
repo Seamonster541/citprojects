@@ -1,0 +1,75 @@
+body {
+	background-color: powderblue;
+	/* change style of the background of the page */
+}
+
+h1, h2{
+	color: blue;
+	font-family: Courier;
+	font-size: 400%;
+	text-align: center
+	/* changes h1
+	changes color, font & size, and where the text is places */
+}
+
+h2{
+	color: red;
+	font-family: Arial;
+	font-size: 85%;
+	text-align: center
+}
+
+h3{
+	color: green;
+	font-family: Arial;
+	font-size: 125%;
+	text-align: center;
+}
+
+p{
+	color: black;
+	font-family: verdana;
+	font-size: 110%;
+}
+
+ul{
+	list-style-type: none;
+	text-align: center;
+}
+
+li{
+	font-size: 200%;
+	display: inline-block;
+	border: 5px solid black;
+	padding: 10px; 
+	margin: 10px;
+	background-color: orange;
+	/* display: inline makes it a row
+	padding adds spaces
+	margin is space outside of box*/
+}
+
+#quotes{
+	color: white;
+	font-family: serif;
+	background-color: black;
+	display: inline-block;
+	/* grabs the id and modify from there while not effecting
+	all tags with p */
+}
+
+#authors{
+	color: white;
+	font-family: serif;
+	background-color: red;
+}
+
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
+a:hover{
+	color: white;
+}

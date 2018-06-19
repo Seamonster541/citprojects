@@ -1,0 +1,3 @@
+SELECT <attribute list>
+FROM <table list>
+WHERE <condition>

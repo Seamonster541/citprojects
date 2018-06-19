@@ -1,0 +1,10 @@
+body {
+	background:url(Images/SoM.jpg);
+}
+
+h1 {
+	text-align: center;
+	color: red;
+	font-style: italic;
+	font-size: 25px;
+}

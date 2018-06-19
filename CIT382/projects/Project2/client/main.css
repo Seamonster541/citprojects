@@ -1,0 +1,31 @@
+body {
+  font-family: Verdana, sans-serif;
+  background-color: purple;
+  font-size: 14px;
+}
+.container {
+  background-color: orange;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100%;
+  padding: 20px;
+}
+h1 {
+  font-size: 1.5em;
+
+}
+h2 {
+  font-size: 1.2em;
+  border-bottom: 1px solid black;
+}
+
+.Toybox {
+  background-color: blue;
+  padding: 20px;
+}
+
+.bottom {
+  background-color: lime;
+  padding: 10px;
+}
+

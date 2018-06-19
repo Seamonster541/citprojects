@@ -1,0 +1,441 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema seeds
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema seeds
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `seeds` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema seeds
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema seeds
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `seeds` DEFAULT CHARACTER SET utf8 ;
+USE `seeds` ;
+
+-- -----------------------------------------------------
+-- Table `seeds`.`REGION`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`REGION` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`REGION` (
+  `REGION_ID` INT NOT NULL AUTO_INCREMENT,
+  `REGION_DESCRIPTION` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`REGION_ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`CUSTOMER`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`CUSTOMER` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`CUSTOMER` (
+  `CUSTOMER_ID` INT NOT NULL,
+  `CUSTOMER_NAME` VARCHAR(45) NOT NULL,
+  `PHONE_NUMBER` VARCHAR(45) NULL,
+  `REGION_ID` INT NOT NULL,
+  PRIMARY KEY (`CUSTOMER_ID`),
+  INDEX `fk_CUSTOMER_REGION1_idx` (`REGION_ID` ASC),
+  CONSTRAINT `fk_CUSTOMER_REGION1`
+    FOREIGN KEY (`REGION_ID`)
+    REFERENCES `seeds`.`REGION` (`REGION_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`EMPLOYEE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`EMPLOYEE` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`EMPLOYEE` (
+  `EMPLOYEE_ID` INT NOT NULL AUTO_INCREMENT,
+  `EMPLOYEE_LNAME` VARCHAR(45) NOT NULL,
+  `EMPLOYEE_FNAME` VARCHAR(45) NOT NULL,
+  `EMPLOYEE_MINITIAL` VARCHAR(45) NULL,
+  `DATE_HIRE` DATE NULL,
+  `REGION_ID` INT NOT NULL,
+  PRIMARY KEY (`EMPLOYEE_ID`),
+  INDEX `fk_EMPLOYEE_REGION_idx` (`REGION_ID` ASC),
+  CONSTRAINT `fk_EMPLOYEE_REGION`
+    FOREIGN KEY (`REGION_ID`)
+    REFERENCES `seeds`.`REGION` (`REGION_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`ESTIMATE_PROJECT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`ESTIMATE_PROJECT` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`ESTIMATE_PROJECT` (
+  `ESTIMATE_PROJECT_ID` INT NOT NULL AUTO_INCREMENT,
+  `START_DATE` DATE NOT NULL,
+  `END_DATE` DATE NOT NULL,
+  `BUDGET` INT NOT NULL,
+  PRIMARY KEY (`ESTIMATE_PROJECT_ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`PROJECT_COST`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`PROJECT_COST` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`PROJECT_COST` (
+  `PROJECT_COST_ID` INT NOT NULL AUTO_INCREMENT,
+  `WEEKLY_TOTAL` DECIMAL NOT NULL,
+  PRIMARY KEY (`PROJECT_COST_ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`ACTUAL_PROJECT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`ACTUAL_PROJECT` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`ACTUAL_PROJECT` (
+  `ACTUAL_PROJECT_ID` INT NOT NULL AUTO_INCREMENT,
+  `START` DATE NULL,
+  `END` DATE NULL,
+  `PROJECT_COST_ID` INT NULL,
+  PRIMARY KEY (`ACTUAL_PROJECT_ID`),
+  INDEX `fk_ACTUAL_PROJECT_PROJECT_COST1_idx` (`PROJECT_COST_ID` ASC),
+  CONSTRAINT `fk_ACTUAL_PROJECT_PROJECT_COST1`
+    FOREIGN KEY (`PROJECT_COST_ID`)
+    REFERENCES `seeds`.`PROJECT_COST` (`PROJECT_COST_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`PROJECT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`PROJECT` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`PROJECT` (
+  `PROJECT_ID` INT NOT NULL AUTO_INCREMENT,
+  `PROJECT_DESCRIPTION` VARCHAR(45) NOT NULL,
+  `PROJECT_SIGNED` DATE NOT NULL,
+  `ESTIMATE_PROJECT_ID` INT NOT NULL,
+  `ACTUAL_PROJECT_ID` INT NULL,
+  `EMPLOYEE_ID` INT NOT NULL,
+  `CUSTOMER_ID` INT NOT NULL,
+  PRIMARY KEY (`PROJECT_ID`),
+  INDEX `fk_PROJECT_ESTIMATE_PROJECT1_idx` (`ESTIMATE_PROJECT_ID` ASC),
+  INDEX `fk_PROJECT_ACTUAL_PROJECT1_idx` (`ACTUAL_PROJECT_ID` ASC),
+  INDEX `fk_PROJECT_EMPLOYEE1_idx` (`EMPLOYEE_ID` ASC),
+  INDEX `fk_PROJECT_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
+  CONSTRAINT `fk_PROJECT_ESTIMATE_PROJECT1`
+    FOREIGN KEY (`ESTIMATE_PROJECT_ID`)
+    REFERENCES `seeds`.`ESTIMATE_PROJECT` (`ESTIMATE_PROJECT_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PROJECT_ACTUAL_PROJECT1`
+    FOREIGN KEY (`ACTUAL_PROJECT_ID`)
+    REFERENCES `seeds`.`ACTUAL_PROJECT` (`ACTUAL_PROJECT_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PROJECT_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_ID`)
+    REFERENCES `seeds`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PROJECT_CUSTOMER1`
+    FOREIGN KEY (`CUSTOMER_ID`)
+    REFERENCES `seeds`.`CUSTOMER` (`CUSTOMER_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`PROJECT_SCHEDULE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`PROJECT_SCHEDULE` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`PROJECT_SCHEDULE` (
+  `PROJECT_SCHEDULE_ID` INT NOT NULL AUTO_INCREMENT,
+  `PROJECT_ID` INT NOT NULL,
+  PRIMARY KEY (`PROJECT_SCHEDULE_ID`),
+  INDEX `fk_PROJECT_SCHEDULE_PROJECT1_idx` (`PROJECT_ID` ASC),
+  CONSTRAINT `fk_PROJECT_SCHEDULE_PROJECT1`
+    FOREIGN KEY (`PROJECT_ID`)
+    REFERENCES `seeds`.`PROJECT` (`PROJECT_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`SKILL`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`SKILL` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`SKILL` (
+  `SKILL_ID` INT NOT NULL AUTO_INCREMENT,
+  `SKILL_DESCRIPTION` VARCHAR(45) NOT NULL,
+  `PAY_RATE` VARCHAR(45) NULL,
+  PRIMARY KEY (`SKILL_ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`EMPLOYEE_SKILL`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`EMPLOYEE_SKILL` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`EMPLOYEE_SKILL` (
+  `EMPLOYEE_ID` INT NOT NULL,
+  `SKILL_SKILL_ID` INT NOT NULL,
+  PRIMARY KEY (`EMPLOYEE_ID`, `SKILL_SKILL_ID`),
+  INDEX `fk_EMPLOYEE_has_SKILL_SKILL1_idx` (`SKILL_SKILL_ID` ASC),
+  INDEX `fk_EMPLOYEE_has_SKILL_EMPLOYEE1_idx` (`EMPLOYEE_ID` ASC),
+  CONSTRAINT `fk_EMPLOYEE_has_SKILL_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_ID`)
+    REFERENCES `seeds`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EMPLOYEE_has_SKILL_SKILL1`
+    FOREIGN KEY (`SKILL_SKILL_ID`)
+    REFERENCES `seeds`.`SKILL` (`SKILL_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`TASK`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`TASK` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`TASK` (
+  `TASK_ID` INT NOT NULL AUTO_INCREMENT,
+  `TASK_DESCRIPTION` VARCHAR(45) NOT NULL,
+  `TASK_START` DATE NOT NULL,
+  `TASK_END` DATE NOT NULL,
+  `PROJECT_SCHEDULE_ID` INT NOT NULL,
+  PRIMARY KEY (`TASK_ID`),
+  INDEX `fk_TASK_PROJECT_SCHEDULE1_idx` (`PROJECT_SCHEDULE_ID` ASC),
+  CONSTRAINT `fk_TASK_PROJECT_SCHEDULE1`
+    FOREIGN KEY (`PROJECT_SCHEDULE_ID`)
+    REFERENCES `seeds`.`PROJECT_SCHEDULE` (`PROJECT_SCHEDULE_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`ASSIGNMENT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`ASSIGNMENT` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`ASSIGNMENT` (
+  `ASSIGNMENT_ID` INT NOT NULL,
+  `START_DATE` VARCHAR(45) NOT NULL,
+  `END_DATE` VARCHAR(45) NULL,
+  `TASK_ID` INT NOT NULL,
+  `EMPLOYEE_ID` INT NOT NULL,
+  PRIMARY KEY (`ASSIGNMENT_ID`),
+  INDEX `fk_EMPLOYEE_has_TASK_TASK1_idx` (`TASK_ID` ASC),
+  INDEX `fk_ASSIGNMENT_EMPLOYEE1_idx` (`EMPLOYEE_ID` ASC),
+  CONSTRAINT `fk_EMPLOYEE_has_TASK_TASK1`
+    FOREIGN KEY (`TASK_ID`)
+    REFERENCES `seeds`.`TASK` (`TASK_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ASSIGNMENT_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_ID`)
+    REFERENCES `seeds`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`WORK_LOG`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`WORK_LOG` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`WORK_LOG` (
+  `WORK__LOG_ID` INT NOT NULL AUTO_INCREMENT,
+  `TOTAL_HOUR` INT NOT NULL,
+  `WEEK_END` DATE NOT NULL,
+  `ASSIGNMENT_ID` INT NOT NULL,
+  PRIMARY KEY (`WORK__LOG_ID`),
+  INDEX `fk_WORK_HOUR_ASSIGNMENT1_idx` (`ASSIGNMENT_ID` ASC),
+  CONSTRAINT `fk_WORK_HOUR_ASSIGNMENT1`
+    FOREIGN KEY (`ASSIGNMENT_ID`)
+    REFERENCES `seeds`.`ASSIGNMENT` (`ASSIGNMENT_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`BILL`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`BILL` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`BILL` (
+  `BILL_NUMBER` INT NOT NULL AUTO_INCREMENT,
+  `BILL_DESCRIPTION` INT NOT NULL,
+  `PROJECT_COST_ID` INT NULL,
+  `WORK_LOG_WORK__LOG_ID` INT NOT NULL,
+  PRIMARY KEY (`BILL_NUMBER`),
+  INDEX `fk_BILL_PROJECT_COST1_idx` (`PROJECT_COST_ID` ASC),
+  INDEX `fk_BILL_WORK_LOG1_idx` (`WORK_LOG_WORK__LOG_ID` ASC),
+  CONSTRAINT `fk_BILL_PROJECT_COST1`
+    FOREIGN KEY (`PROJECT_COST_ID`)
+    REFERENCES `seeds`.`PROJECT_COST` (`PROJECT_COST_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_BILL_WORK_LOG1`
+    FOREIGN KEY (`WORK_LOG_WORK__LOG_ID`)
+    REFERENCES `seeds`.`WORK_LOG` (`WORK__LOG_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+USE `seeds` ;
+
+-- -----------------------------------------------------
+-- Table `seeds`.`COLOR`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`COLOR` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`COLOR` (
+  `COLOR_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `COLOR_NAME` VARCHAR(45) NOT NULL,
+  `COLOR_HEX` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`COLOR_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`L4-CONTACT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`L4-CONTACT` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`L4-CONTACT` (
+  `CONTACT_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `CONTACT_LNAME` VARCHAR(128) NOT NULL,
+  `CONTACT_FNAME` VARCHAR(128) NULL DEFAULT NULL,
+  `CONTACT_MNAME` VARCHAR(128) NULL DEFAULT NULL,
+  `CONTACT_BIRTHDATE` DATE NULL DEFAULT NULL,
+  `CONTACT_YEAR_FIRST_MET` YEAR(4) NULL DEFAULT NULL,
+  `GENDER` CHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`CONTACT_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = latin1
+COMMENT = 'week 4 lab';
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`STUDENT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`STUDENT` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`STUDENT` (
+  `STUDENT_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `S_FNAME` VARCHAR(45) NULL DEFAULT NULL,
+  `S_LNAME` VARCHAR(45) NOT NULL,
+  `S_MAJOR` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`STUDENT_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `seeds`.`SKILL_REQUIRED`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `seeds`.`SKILL_REQUIRED` ;
+
+CREATE TABLE IF NOT EXISTS `seeds`.`SKILL_REQUIRED` (
+  `SKILL_ID` INT NOT NULL,
+  `TASK_ID` INT NOT NULL,
+  `QUANTITY` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`SKILL_ID`, `TASK_ID`),
+  INDEX `fk_SKILL_has_TASK_TASK1_idx` (`TASK_ID` ASC),
+  INDEX `fk_SKILL_has_TASK_SKILL_idx` (`SKILL_ID` ASC),
+  CONSTRAINT `fk_SKILL_has_TASK_SKILL`
+    FOREIGN KEY (`SKILL_ID`)
+    REFERENCES `seeds`.`SKILL` (`SKILL_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SKILL_has_TASK_TASK1`
+    FOREIGN KEY (`TASK_ID`)
+    REFERENCES `seeds`.`TASK` (`TASK_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `seeds`.`REGION`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `seeds`;
+INSERT INTO `seeds`.`REGION` (`REGION_ID`, `REGION_DESCRIPTION`) VALUES (1, 'NW');
+INSERT INTO `seeds`.`REGION` (`REGION_ID`, `REGION_DESCRIPTION`) VALUES (2, 'SW');
+INSERT INTO `seeds`.`REGION` (`REGION_ID`, `REGION_DESCRIPTION`) VALUES (3, 'MN');
+INSERT INTO `seeds`.`REGION` (`REGION_ID`, `REGION_DESCRIPTION`) VALUES (4, 'MS');
+INSERT INTO `seeds`.`REGION` (`REGION_ID`, `REGION_DESCRIPTION`) VALUES (5, 'NE');
+INSERT INTO `seeds`.`REGION` (`REGION_ID`, `REGION_DESCRIPTION`) VALUES (6, 'SE');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `seeds`.`SKILL`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `seeds`;
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (1, 'Data Entry I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (2, 'Data Entry II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (3, 'System Analyst I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (4, 'System Analyst II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (5, 'DB Designer I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (6, 'DB Designer II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (7, 'Cobol I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (8, 'Cobol II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (9, 'C++ I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (10, 'C++ II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (11, 'VB I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (12, 'CB II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (13, 'ColdFusion I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (14, 'ColdFusion II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (15, 'ASP I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (16, 'ASP II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (17, 'Orcale DBA', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (18, 'SQL Server DBA', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (19, 'Network Engineer I', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (20, 'Network Engineer II', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (21, 'Web Administrator', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (22, 'Technical Writer', NULL);
+INSERT INTO `seeds`.`SKILL` (`SKILL_ID`, `SKILL_DESCRIPTION`, `PAY_RATE`) VALUES (23, 'Project Manager', NULL);
+
+COMMIT;
+

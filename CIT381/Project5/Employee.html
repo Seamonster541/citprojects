@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+ <html lang='en'> 
+
+ <head>
+ 	<meta charset='utf-8' >
+	<title>Employee Web App</title>
+	<link rel="stylesheet" type="text/css" href="employee.css">
+</head>
+
+<body>
+	<h2 id="title">Employee web App</h2> 
+	<div id = "outputDiv" class="container">
+		<div class="row">
+			<div class="col1H">Last Name</div> 
+			<div class="col2H">First Name</div> 
+			<div class="col3H">MI</div>
+			<div class="col4H">Region</div>
+			<div class="col5H">Action</div>
+			<div class="selectRegionH">
+				<select id="selectRegion">
+					<option value="All">All Regions</option>
+					<option value ="NE">NE</option>
+					<option value ="NW">NW</option>
+					<option value ="SE">SE</option>
+					<option value ="SW">SW</option>
+					<option value ="MN">MN</option>
+					<option value ="MS">MS</option>
+				</select>
+			</div>
+		</div>	
+	</div>
+	<p>
+	<h2 id="Add">Add Employee</h2>
+	<br> 
+	<div class="divCol1">First Name:</div>
+	<div class="divCol2"><input type="text" id="firstname"/></div>
+	<br>
+	<div class="divCol1">Middle Initial:</div>
+	<div class="divCol2"><input type="text" id="middlename"/></div>
+	<br>
+	<div class="divCol1">Last Name:</div>
+	<div class="divCol2"><input type="text" id="lastname"/></div>
+	<br> 
+	<div class="divCol1">Region:</div>
+	<select id="regions">
+		<option value="" selected hidden>All Regions</option>
+		<option value =5>NE</option>
+		<option value =1>NW</option>
+		<option value =6>SE</option>
+		<option value =2>SW</option>
+		<option value =3>MN</option>
+		<option value =4>MS</option>
+	</select>
+	<br>
+	<button id="addEmployee">Add Employee</button>
+	<button id="cancel value=Reset">Cancel</button>
+	</p>
+	<script src = "http://code.jquery.com/jquery-latest.min.js"></script>
+	<!--<script src = "Employee.js"></script>-->
+	<script src = "Employee-client.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
